@@ -3,7 +3,7 @@ version: '3'
 
 services:
 
-    kiwi-postgres:
+    kiwi_redis:
         image: redis:5
         restart: always
         volumes:
@@ -11,34 +11,35 @@ services:
         ports:
           - "3000:6379"
 
-#    kiwi-nginx:
-#        build:
-#            context: ./nginx
-#            dockerfile: Dockerfile
-#        restart: always
-#        env_file: .local_env
-#        volumes:
-#          - media:/tmp/media:ro
-#          - socket:/files/socket
-#        ports:
-#          - "2800:80"
-#
-#    kiwi-backend:
-#        build:
-#          context: ./backend
-#          dockerfile: Dockerfile
-#        restart: always
-#        depends_on:
-#          - kiwi-postgres
-#          - kiwi-rabbit
-#        env_file: .local_env
-#        volumes:
-#          - socket:/socket
-#          - media:/src/media
-#        network_mode: host
-#        command: /src/init.sh
-#
-#
-#volumes:
-#    socket:
-#    media:
+    kiwi-nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        restart: always
+        volumes:
+          - static:/files/static:ro
+          - socket:/files/socket
+        ports:
+          - "4000:80"
+
+    kiwi-server:
+        build:
+          context: ./backend
+          dockerfile: Dockerfile
+        restart: always
+        volumes:
+          - socket:/socket
+          - static:/src/server/static
+        command: /src/init.sh
+
+    kiwi-worker:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      restart: always
+      command: python /src/background_worker.py
+
+
+volumes:
+    static:
+    socket:

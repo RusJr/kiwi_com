@@ -20,6 +20,3 @@ pip-selfcheck.json
 venv/
 lxenv/
 ENV/
-
-# Angular frontend
-frontend/

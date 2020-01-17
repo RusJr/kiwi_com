@@ -11,7 +11,8 @@ WORKDIR /src
 
 RUN pip install poetry
 ADD pyproject.toml poetry.lock /src/
-RUN poetry config settings.virtualenvs.create false
+RUN poetry config --list
+RUN poetry config virtualenvs.create false
 RUN poetry install --no-interaction
 
 ADD init.sh uwsgi.ini /src/ /src/

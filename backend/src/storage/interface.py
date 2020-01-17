@@ -10,3 +10,6 @@ class Storage:  # interface)
 
     def get_calendar(self, fly_from: str, fly_to: str) -> Optional[LowestPricesCalendar]:
         raise NotImplementedError
+
+    def list_all_calendars(self,) -> List[LowestPricesCalendar]:
+        raise NotImplementedError

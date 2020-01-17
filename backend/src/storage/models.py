@@ -12,8 +12,8 @@ class Jsonable():
     def to_dict(self) -> dict:
         raise NotImplementedError
 
-    def to_json(self) -> dict:
-        return json.dumps(self.to_dict(), ensure_ascii=False, default=str)
+    def to_json(self) -> str:
+        raise NotImplementedError
 
 
 class Flight(Jsonable):
@@ -34,10 +34,15 @@ class Flight(Jsonable):
             'booking_token': self.booking_token,
         }
 
+    def to_json(self) -> str:
+        data = self.to_dict()
+        data['departure_time'] = int(datetime.timestamp(self.departure_time))
+        return json.dumps(data, ensure_ascii=False)
+
     @classmethod
     def from_dict(cls, data: dict):
         return cls(
-            departure_time=data['departure_time'],
+            departure_time=datetime.fromtimestamp(data['departure_time']),
             fly_from=data['fly_from'],
             fly_to=data['fly_to'],
             price=data['price'],
@@ -45,7 +50,7 @@ class Flight(Jsonable):
         )
 
     def __str__(self) -> str:
-        return f'{self.fly_from}-{self.fly_to} {self.price}'
+        return f'{self.price}'
 
 
 class CalendarStatuses:
@@ -73,6 +78,12 @@ class LowestPricesCalendar(Jsonable):
             'flights': [f.to_dict() for f in self.flights],
         }
 
+    def to_json(self) -> str:
+        data = self.to_dict()
+        for flight in data['flights']:
+            flight['departure_time'] = int(datetime.timestamp(flight['departure_time']))
+        return json.dumps(data, ensure_ascii=False)
+
     @classmethod
     def from_dict(cls, data: dict):
         return cls(
@@ -83,3 +94,6 @@ class LowestPricesCalendar(Jsonable):
             progress_done=data['progress_done'],
             flights=[Flight.from_dict(f) for f in data['flights']],
         )
+
+    def __str__(self) -> str:
+        return f'{self.fly_from}-{self.fly_to}'

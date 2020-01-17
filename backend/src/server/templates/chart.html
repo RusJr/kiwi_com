@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<meta http-equiv="refresh" content="30">
 	<title>Chart</title>
 	<script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
 	<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
@@ -25,39 +26,31 @@
 		var config = {
 			type: 'line',
 			data: {
-				labels: ['01/02', '02/02', '03/02', '04/02', '05/02'],
-				
-				datasets: [{
-					label: 'ALA-TSE',
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: [22750, 15600, 10000, 0, 24100],
-					fill: false,
-				},
+				labels: [
+					{% for row in chart_labels -%}
+						'{{row}}',
+					{% endfor %}
+				],
 
+				datasets: [
 				{
-					label: 'TSE-MOW',
+					label: '{{calendar.fly_from}}-{{calendar.fly_to}}',
 					fill: false,
 					backgroundColor: window.chartColors.blue,
 					borderColor: window.chartColors.blue,
-					data: [65000, 87698, 69555, 45666, 0],
+					data: [
+						{% for row in chart_prices -%}
+							{{row}},
+						{% endfor %}
+					],
 				},
-
-				{
-					label: 'TSE-HZ',
-					fill: false,
-					backgroundColor: window.chartColors.gray,
-					borderColor: window.chartColors.gray,
-					data: [135000, 0, 159555, 85666, 99000],
-				}
-
 				]
 			},
 			options: {
 				responsive: true,
 				title: {
 					display: true,
-					text: 'Flights Chart'
+					text: 'Flights Chart. Status: {{calendar.status}} ({{calendar.progress_done}}/{{calendar.progress_total}})'
 				},
 				tooltips: {
 					mode: 'index',

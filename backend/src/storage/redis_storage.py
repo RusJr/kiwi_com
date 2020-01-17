@@ -1,10 +1,14 @@
 import json
-from typing import Any, Optional
+import logging
+from typing import Any, Optional, List
 
 import redis
 
 from storage.interface import Storage
 from storage.models import LowestPricesCalendar
+
+
+logger = logging.getLogger('main_logger')
 
 
 class RedisStorage(Storage):
@@ -25,6 +29,18 @@ class RedisStorage(Storage):
             return calendar
         else:
             return None
+
+    def list_all_calendars(self,) -> List[LowestPricesCalendar]:
+        cursor, keys = self._redis.scan()
+        data = self._redis.mget(keys)
+
+        result = []
+        for row in data:
+            try:
+                result.append(LowestPricesCalendar.from_dict(json.loads(row)))
+            except KeyError as e:
+                logger.error('KeyError(%s)', e)
+        return result
 
     def _get(self, key: str) -> Any:
         bytes_value = self._redis.get(key)

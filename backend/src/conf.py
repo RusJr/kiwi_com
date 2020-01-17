@@ -1,20 +1,28 @@
 import logging.config
 
-DAYS_AHEAD = 5
+
+DAYS = 30
+UPDATE_TIME = '00:00'
 TOP_FLIGHTS = (
     ('ALA', 'TSE'),
-    # ('TSE', 'ALA'),
-    # ('ALA', 'MOW'),
-    # ('MOW', 'ALA'),
-    # ('ALA', 'CIT'),
-    # ('CIT', 'ALA'),
-    # ('TSE', 'MOW'),
-    # ('MOW', 'TSE'),
-    # ('TSE', 'LED'),
-    # ('LED', 'TSE'),
+    ('TSE', 'ALA'),
+    ('ALA', 'MOW'),
+    ('MOW', 'ALA'),
+    ('ALA', 'CIT'),
+    ('CIT', 'ALA'),
+    ('TSE', 'MOW'),
+    ('MOW', 'TSE'),
+    ('TSE', 'LED'),
+    ('LED', 'TSE'),
 )
 
-# LOGGING ---------------------------------------------------------------------------------------------------------
+
+REDIS_HOST = 'kiwi_redis'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
+
+# LOGGING ------------------------------------------------------------------------------------------------
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
