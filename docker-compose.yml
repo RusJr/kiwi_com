@@ -1,0 +1,44 @@
+version: '3'
+
+
+services:
+
+    kiwi-postgres:
+        image: redis:5
+        restart: always
+        volumes:
+          - /docker_volumes/kiwi/redis:/data
+        ports:
+          - "3000:6379"
+
+#    kiwi-nginx:
+#        build:
+#            context: ./nginx
+#            dockerfile: Dockerfile
+#        restart: always
+#        env_file: .local_env
+#        volumes:
+#          - media:/tmp/media:ro
+#          - socket:/files/socket
+#        ports:
+#          - "2800:80"
+#
+#    kiwi-backend:
+#        build:
+#          context: ./backend
+#          dockerfile: Dockerfile
+#        restart: always
+#        depends_on:
+#          - kiwi-postgres
+#          - kiwi-rabbit
+#        env_file: .local_env
+#        volumes:
+#          - socket:/socket
+#          - media:/src/media
+#        network_mode: host
+#        command: /src/init.sh
+#
+#
+#volumes:
+#    socket:
+#    media:

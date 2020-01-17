@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Chart</title>
+	<script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+	<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+</head>
+
+<body>
+	<div style="width:75%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<br>
+	<br>
+
+	<script>
+		var config = {
+			type: 'line',
+			data: {
+				labels: ['01/02', '02/02', '03/02', '04/02', '05/02'],
+				
+				datasets: [{
+					label: 'ALA-TSE',
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
+					data: [22750, 15600, 10000, 0, 24100],
+					fill: false,
+				},
+
+				{
+					label: 'TSE-MOW',
+					fill: false,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: [65000, 87698, 69555, 45666, 0],
+				},
+
+				{
+					label: 'TSE-HZ',
+					fill: false,
+					backgroundColor: window.chartColors.gray,
+					borderColor: window.chartColors.gray,
+					data: [135000, 0, 159555, 85666, 99000],
+				}
+
+				]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Flights Chart'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Date'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Price'
+						}
+					}]
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+
+	</script>
+</body>
+
+</html>

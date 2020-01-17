@@ -4,20 +4,10 @@ from json import JSONDecodeError
 
 import requests
 
+from kiwi.exceptions import KiwiError, KiwiConnectionError, KiwiInternalError
+
 
 logger = logging.getLogger('main_logger')
-
-
-class KiwiError(Exception):
-    pass
-
-
-class KiwiInternalError(Exception):
-    pass
-
-
-class KiwiConnectionError(KiwiError):
-    pass
 
 
 class KiwiClient:
